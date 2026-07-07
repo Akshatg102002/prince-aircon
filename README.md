@@ -1,4 +1,50 @@
-# React + TypeScript + Vite
+# PRINCE AIRCON — React + TypeScript + Vite
+
+## Running locally
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+```
+
+`npm run dev` starts Vite **and** serves the `api/` functions locally. The
+`api/*.js` files are Vercel-style serverless functions; on Vercel they run in
+the Node runtime, but the plain Vite dev server does not know about them. A small
+dev-only plugin (`dev-api-plugin.js`, wired into `vite.config.ts`) intercepts
+`/api/*` requests during `npm run dev`, runs the matching handler with a
+Vercel-compatible `(req, res)` shim, and returns real JSON — so calls like
+`fetch('/api/site-data')` work the same locally as in production.
+
+### Database / environment
+
+The functions talk to Supabase. For local dev the plugin loads the values from
+`vercel.json`'s `env` block into `process.env` automatically, so reads work out
+of the box using the public anon/publishable key. To use a service-role key
+(required for writes if row-level security blocks anonymous inserts), export it
+before starting the dev server:
+
+```bash
+export SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+npm run dev
+```
+
+Shell/`.env` values always take precedence over `vercel.json`.
+
+## Local API: the two options and the tradeoff
+
+1. **Built-in Vite dev middleware (default, used here).** No extra tooling —
+   `npm run dev` just works and executes the exact same handler files. The shim
+   only emulates the parts of the Vercel request/response contract the handlers
+   use (`req.method`, `req.body`, `res.status().json()`, headers), so it is not
+   a 100% faithful reproduction of the Vercel runtime.
+2. **`vercel dev`.** The most faithful emulation of the production runtime
+   (routing, env resolution, function config), but requires the Vercel CLI,
+   `vercel link`, and authentication — heavier for contributors and CI. Use it
+   if you need to debug Vercel-specific behavior.
+
+---
+
+## React + TypeScript + Vite (template notes)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

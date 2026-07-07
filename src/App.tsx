@@ -134,6 +134,35 @@ const iconMap: Record<string, typeof Snowflake> = {
   award: Award,
 };
 
+// Fetch wrapper that guarantees a parsed JSON object or a clear error.
+// It checks the response's content-type before calling res.json(), so a
+// non-JSON response (e.g. the Vite dev server returning HTML or the raw
+// source of an api/* function that never ran) produces an actionable
+// message instead of a cryptic "Unexpected token ... is not valid JSON".
+async function fetchJson<T = unknown>(input: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(input, init);
+  const contentType = res.headers.get('content-type') || '';
+
+  if (!contentType.includes('application/json')) {
+    const text = (await res.text().catch(() => '')).trim().replace(/\s+/g, ' ');
+    const snippet = text.slice(0, 100);
+    if (!res.ok) {
+      throw new Error(`Request to ${input} failed (${res.status}). ${snippet}`);
+    }
+    throw new Error(
+      `The API at ${input} did not return JSON. ` +
+        `Make sure the api/ functions are running locally (see README: "npm run dev"). ` +
+        (snippet ? `Received: "${snippet}"` : '')
+    );
+  }
+
+  const json = (await res.json()) as T & { error?: string };
+  if (!res.ok) {
+    throw new Error(json?.error || `Request to ${input} failed (${res.status}).`);
+  }
+  return json;
+}
+
 function useSiteData() {
   const [data, setData] = useState<SiteData>(emptyData);
   const [loading, setLoading] = useState(true);
@@ -143,9 +172,7 @@ function useSiteData() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/api/site-data');
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || 'Unable to load website content.');
+      const json = await fetchJson<SiteData>('/api/site-data');
       setData(json);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
@@ -270,11 +297,13 @@ function Footer({ posts }: { posts: BlogPost[] }) {
   const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('');
-    const res = await fetch('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-    const data = await res.json();
-    if (!res.ok) return setStatus(data.error || 'Subscription failed.');
-    setEmail('');
-    setStatus(data.message || 'Subscribed successfully.');
+    try {
+      const data = await fetchJson<{ message?: string }>('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+      setEmail('');
+      setStatus(data.message || 'Subscribed successfully.');
+    } catch (err) {
+      setStatus(err instanceof Error ? err.message : 'Subscription failed.');
+    }
   };
   return (
     <footer className="bg-[#071d42] text-white">
@@ -476,9 +505,7 @@ function LeadForm({ title, leadType, services, onSuccess }: { title: string; lea
     if (!form.name || !form.phone || !form.service || !form.city) return setError('Please fill name, phone, service and city.');
     setSubmitting(true);
     try {
-      const res = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, lead_type: leadType }) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Booking failed.');
+      await fetchJson('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, lead_type: leadType }) });
       setStatus('Thank you. PRINCE AIRCON will contact you shortly.');
       setForm({ name: '', phone: '', email: '', service: services[0] || '', city: '', preferred_date: '', message: '' });
       onSuccess?.();
@@ -496,12 +523,14 @@ function ReviewForm({ refetch }: { refetch: () => void }) {
   const [message, setMessage] = useState('');
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setMessage('');
-    const res = await fetch('/api/reviews', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-    const data = await res.json();
-    if (!res.ok) return setMessage(data.error || 'Could not submit review.');
-    setMessage('Review submitted. Thank you for trusting PRINCE AIRCON.');
-    setForm({ name: '', location: '', rating: '5', service: '', review_text: '' });
-    refetch();
+    try {
+      await fetchJson('/api/reviews', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+      setMessage('Review submitted. Thank you for trusting PRINCE AIRCON.');
+      setForm({ name: '', location: '', rating: '5', service: '', review_text: '' });
+      refetch();
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : 'Could not submit review.');
+    }
   };
   return <form onSubmit={submit} className="h-fit rounded-[2rem] bg-[#F5F7FA] p-7"><h2 className="text-3xl font-extrabold text-[#0D47A1]">Leave Review</h2><div className="mt-6 grid gap-4"><Input label="Name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} required /><Input label="Location" value={form.location} onChange={(v) => setForm({ ...form, location: v })} required /><Input label="Service" value={form.service} onChange={(v) => setForm({ ...form, service: v })} required /><label className="grid gap-2 text-sm font-bold text-slate-700">Rating<select value={form.rating} onChange={(e) => setForm({ ...form, rating: e.target.value })} className="rounded-2xl border border-slate-200 px-4 py-3"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label><label className="grid gap-2 text-sm font-bold text-slate-700">Review<textarea required value={form.review_text} onChange={(e) => setForm({ ...form, review_text: e.target.value })} className="min-h-28 rounded-2xl border border-slate-200 px-4 py-3" /></label></div>{message && <p className="mt-4 text-sm font-semibold text-[#0D47A1]">{message}</p>}<button className="mt-6 rounded-full bg-[#0D47A1] px-6 py-3 font-bold text-white">Submit Review</button></form>;
 }
