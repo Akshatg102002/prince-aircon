@@ -31,76 +31,8 @@ import {
   Zap,
 } from 'lucide-react';
 import './index.css';
-
-type Service = {
-  id: number;
-  category: 'ac' | 'hvac';
-  title: string;
-  slug: string;
-  description: string;
-  benefits: string[];
-  process: string[];
-  faqs: { q: string; a: string }[];
-  icon: string;
-  sort_order: number;
-  featured: boolean;
-};
-
-type GalleryItem = {
-  id: number;
-  title: string;
-  category: string;
-  image_url: string;
-  video_url: string | null;
-  alt_text: string;
-  location: string;
-};
-
-type Review = {
-  id: number;
-  name: string;
-  location: string;
-  rating: number;
-  service: string;
-  review_text: string;
-  before_after: string | null;
-  is_featured: boolean;
-};
-
-type BlogPost = {
-  id: number;
-  title: string;
-  slug: string;
-  category: string;
-  excerpt: string;
-  content: string;
-  image_url: string;
-  author: string;
-  read_time: string;
-  created_at: string;
-};
-
-type FAQ = { id: number; page: string; question: string; answer: string; sort_order: number };
-type SiteContent = { id: number; section: string; title: string; subtitle: string | null; body: string | null; items: string[] | null; sort_order: number };
-
-type SiteData = {
-  services: Service[];
-  gallery: GalleryItem[];
-  reviews: Review[];
-  posts: BlogPost[];
-  faqs: FAQ[];
-  content: SiteContent[];
-};
-
-type LeadFormState = {
-  name: string;
-  phone: string;
-  email: string;
-  service: string;
-  city: string;
-  preferred_date: string;
-  message: string;
-};
+import type { BlogPost, FAQ, LeadFormState, Review, Service, SiteContent, SiteData } from './lib/types';
+import { getSiteData, submitLead, submitReview, subscribeNewsletter } from './lib/supabaseData';
 
 const emptyData: SiteData = { services: [], gallery: [], reviews: [], posts: [], faqs: [], content: [] };
 const phoneNumber = '+919891765996';
@@ -142,35 +74,6 @@ const iconMap: Record<string, typeof Snowflake> = {
   award: Award,
 };
 
-// Fetch wrapper that guarantees a parsed JSON object or a clear error.
-// It checks the response's content-type before calling res.json(), so a
-// non-JSON response (e.g. the Vite dev server returning HTML or the raw
-// source of an api/* function that never ran) produces an actionable
-// message instead of a cryptic "Unexpected token ... is not valid JSON".
-async function fetchJson<T = unknown>(input: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(input, init);
-  const contentType = res.headers.get('content-type') || '';
-
-  if (!contentType.includes('application/json')) {
-    const text = (await res.text().catch(() => '')).trim().replace(/\s+/g, ' ');
-    const snippet = text.slice(0, 100);
-    if (!res.ok) {
-      throw new Error(`Request to ${input} failed (${res.status}). ${snippet}`);
-    }
-    throw new Error(
-      `The API at ${input} did not return JSON. ` +
-        `Make sure the api/ functions are running locally (see README: "npm run dev"). ` +
-        (snippet ? `Received: "${snippet}"` : '')
-    );
-  }
-
-  const json = (await res.json()) as T & { error?: string };
-  if (!res.ok) {
-    throw new Error(json?.error || `Request to ${input} failed (${res.status}).`);
-  }
-  return json;
-}
-
 function useSiteData() {
   const [data, setData] = useState<SiteData>(emptyData);
   const [loading, setLoading] = useState(true);
@@ -180,7 +83,9 @@ function useSiteData() {
     setLoading(true);
     setError('');
     try {
-      const json = await fetchJson<SiteData>('/api/site-data');
+      // Reads directly from Supabase (browser anon key) so the site works on
+      // static hosting without the /api/* serverless functions.
+      const json = await getSiteData();
       setData(json);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
@@ -307,7 +212,7 @@ function Footer({ posts }: { posts: BlogPost[] }) {
     e.preventDefault();
     setStatus('');
     try {
-      const data = await fetchJson<{ message?: string }>('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+      const data = await subscribeNewsletter(email);
       setEmail('');
       setStatus(data.message || 'Subscribed successfully.');
     } catch (err) {
@@ -519,7 +424,7 @@ function LeadForm({ title, leadType, services, onSuccess }: { title: string; lea
     if (!form.name || !form.phone || !form.service || !form.city) return setError('Please fill name, phone, service and city.');
     setSubmitting(true);
     try {
-      await fetchJson('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...form, lead_type: leadType }) });
+      await submitLead({ ...form, lead_type: leadType });
       setStatus('Thank you. PRINCE AIRCON will contact you shortly.');
       setForm({ name: '', phone: '', email: '', service: services[0] || '', city: '', preferred_date: '', message: '' });
       onSuccess?.();
@@ -538,7 +443,7 @@ function ReviewForm({ refetch }: { refetch: () => void }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setMessage('');
     try {
-      await fetchJson('/api/reviews', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+      await submitReview(form);
       setMessage('Review submitted. Thank you for trusting PRINCE AIRCON.');
       setForm({ name: '', location: '', rating: '5', service: '', review_text: '' });
       refetch();
