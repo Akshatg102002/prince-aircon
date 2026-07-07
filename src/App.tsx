@@ -11,10 +11,10 @@ import {
   CheckCircle2,
   ChevronDown,
   Clock,
+  Facebook,
   Fan,
   Gauge,
   Home as HomeIcon,
-  Mail,
   MapPin,
   Menu,
   MessageCircle,
@@ -103,8 +103,16 @@ type LeadFormState = {
 };
 
 const emptyData: SiteData = { services: [], gallery: [], reviews: [], posts: [], faqs: [], content: [] };
-const phoneNumber = '+919999999999';
-const whatsappUrl = `https://wa.me/919999999999?text=${encodeURIComponent('Hi PRINCE AIRCON, I want to book an AC/HVAC service.')}`;
+const phoneNumber = '+919891765996';
+const phoneNumberSecondary = '+919250604414';
+const phoneDisplay = '+91 98917 65996';
+const phoneSecondaryDisplay = '+91 92506 04414';
+const whatsappNumber = '919891765996';
+const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi Prince Aircon, I want to book an AC / appliance service.')}`;
+const facebookUrl = 'https://www.facebook.com/princeairconnoida';
+const businessAddress = 'Shop No-10, City Plaza, Extension, Gaur City 2, Greater Noida, Uttar Pradesh 201009';
+const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(businessAddress)}`;
+const googleRating = { value: '4.9', reviews: '1,100+' };
 const navItems = [
   ['Home', '/'],
   ['About', '/about'],
@@ -116,7 +124,7 @@ const navItems = [
   ['Contact', '/contact'],
 ];
 const brands = ['Daikin', 'Voltas', 'LG', 'Samsung', 'Hitachi', 'Carrier', 'Blue Star', 'Panasonic', 'Lloyd'];
-const areas = ['Noida', 'Greater Noida', 'Ghaziabad', 'Indirapuram', 'Vaishali', 'Vasundhara', 'Sector 62', 'Sector 18', 'Wave City', 'NCR'];
+const areas = ['Gaur City 1', 'Gaur City 2', 'Noida Extension', 'Greater Noida West', 'Sector 16B & 16C', 'Techzone 4'];
 const blogCategories = ['AC Maintenance', 'Energy Saving Tips', 'Summer Cooling', 'HVAC Guide', 'Indoor Air Quality', 'Buying Guide'];
 const galleryFilters = ['all', 'installation', 'repair', 'commercial', 'residential', 'before-after', 'technician', 'video'];
 const iconMap: Record<string, typeof Snowflake> = {
@@ -248,9 +256,10 @@ function Header() {
     <>
       <div className="bg-[#0D47A1] text-white">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-2 text-sm sm:flex-row">
-          <span className="flex items-center gap-2 font-medium"><Zap className="h-4 w-4 text-[#FF9800]" /> Emergency Same Day AC Service in Noida & NCR</span>
+          <span className="flex items-center gap-2 font-medium"><Zap className="h-4 w-4 text-[#FF9800]" /> Same Day AC & Appliance Service in Gaur City 2, Greater Noida West</span>
           <div className="flex items-center gap-4">
-            <a href={`tel:${phoneNumber}`} className="flex items-center gap-1 hover:text-[#FF9800]"><Phone className="h-4 w-4" /> Call Now</a>
+            <a href={`tel:${phoneNumber}`} className="flex items-center gap-1 hover:text-[#FF9800]"><Phone className="h-4 w-4" /> {phoneDisplay}</a>
+            <a href={`tel:${phoneNumberSecondary}`} className="hidden items-center gap-1 hover:text-[#FF9800] sm:flex"><Phone className="h-4 w-4" /> {phoneSecondaryDisplay}</a>
             <a href={whatsappUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-[#FF9800]"><MessageCircle className="h-4 w-4" /> WhatsApp</a>
           </div>
         </div>
@@ -310,8 +319,13 @@ function Footer({ posts }: { posts: BlogPost[] }) {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 lg:grid-cols-[1.3fr_0.8fr_0.8fr_1fr]">
         <div>
           <div className="flex items-center gap-3"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-[#0D47A1]"><Snowflake /></span><div><h3 className="text-2xl font-extrabold">PRINCE AIRCON</h3><p className="text-sm text-blue-100">Professional AC Repair & HVAC Services</p></div></div>
-          <p className="mt-5 leading-7 text-blue-100">Trusted local experts for AC repair Noida, AC service Noida, AC installation Noida, AC gas filling Noida, HVAC repair Noida and commercial HVAC NCR.</p>
-          <div className="mt-6 flex gap-3"><a className="rounded-full bg-[#FF9800] px-5 py-3 font-bold" href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a><a className="rounded-full bg-white/10 px-5 py-3 font-bold" href={`tel:${phoneNumber}`}>Call Now</a></div>
+          <p className="mt-5 leading-7 text-blue-100">Trusted local experts for AC repair, installation, servicing, gas filling, AC on rent and appliance repair across Gaur City 1 &amp; 2, Noida Extension and Greater Noida West.</p>
+          <div className="mt-5 grid gap-2 text-sm text-blue-100">
+            <a href={`tel:${phoneNumber}`} className="flex items-center gap-2 hover:text-[#FF9800]"><Phone className="h-4 w-4 shrink-0" /> {phoneDisplay}</a>
+            <a href={`tel:${phoneNumberSecondary}`} className="flex items-center gap-2 hover:text-[#FF9800]"><Phone className="h-4 w-4 shrink-0" /> {phoneSecondaryDisplay}</a>
+            <p className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0" /> {businessAddress}</p>
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-3"><a className="rounded-full bg-[#FF9800] px-5 py-3 font-bold" href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a><a className="rounded-full bg-white/10 px-5 py-3 font-bold" href={`tel:${phoneNumber}`}>Call Now</a><a className="grid h-11 w-11 place-items-center rounded-full bg-white/10 hover:bg-[#FF9800]" href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Prince Aircon on Facebook"><Facebook className="h-5 w-5" /></a></div>
         </div>
         <div><h4 className="mb-4 text-lg font-bold">Company</h4><div className="grid gap-2 text-blue-100">{navItems.map(([l, p]) => <Link key={p} to={p} className="hover:text-[#FF9800]">{l}</Link>)}<Link to="/privacy-policy">Privacy Policy</Link><Link to="/terms-conditions">Terms & Conditions</Link><Link to="/sitemap">Sitemap</Link></div></div>
         <div><h4 className="mb-4 text-lg font-bold">Service Areas</h4><div className="grid gap-2 text-blue-100">{areas.map((area) => <span key={area}>{area}</span>)}</div></div>
@@ -323,7 +337,7 @@ function Footer({ posts }: { posts: BlogPost[] }) {
           <div className="mt-5 text-sm text-blue-100"><p className="font-semibold text-white">Latest Guide</p><p>{posts[0]?.title || 'AC Maintenance Guide'}</p></div>
         </div>
       </div>
-      <div className="border-t border-white/10 py-5 text-center text-sm text-blue-100">© {new Date().getFullYear()} PRINCE AIRCON. All rights reserved. Serving Noida, Greater Noida, Ghaziabad & NCR.</div>
+      <div className="border-t border-white/10 py-5 text-center text-sm text-blue-100">© {new Date().getFullYear()} PRINCE AIRCON. All rights reserved. Serving Gaur City 1 &amp; 2, Noida Extension, Greater Noida West and nearby areas.</div>
     </footer>
   );
 }
@@ -355,12 +369,12 @@ function Hero() {
       <div className="absolute -right-20 top-20 h-72 w-72 rounded-full bg-[#FF9800]/10 blur-3xl" />
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 lg:grid-cols-2 lg:py-28">
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0D47A1] shadow-sm"><BadgeCheck className="h-4 w-4 text-[#FF9800]" /> Trusted AC Repair Noida specialists</div>
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-[#082b63] md:text-6xl">Professional AC Repair & HVAC Services in Noida</h1>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0D47A1] shadow-sm"><BadgeCheck className="h-4 w-4 text-[#FF9800]" /> Trusted AC & appliance experts in Gaur City 2</div>
+          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-[#082b63] md:text-6xl">AC Repair, Installation & Appliance Services in Greater Noida West</h1>
           <p className="mt-6 text-xl leading-9 text-slate-600">Fast, affordable and reliable AC installation, repair, maintenance and HVAC solutions for residential and commercial customers.</p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row"><Link to="/contact" className="rounded-full bg-[#FF9800] px-8 py-4 text-center font-extrabold text-white shadow-xl shadow-orange-500/25 hover:bg-[#f08d00]">Book Service</Link><a href={`tel:${phoneNumber}`} className="rounded-full bg-[#0D47A1] px-8 py-4 text-center font-extrabold text-white shadow-xl shadow-blue-900/20 hover:bg-[#093575]">Call Now</a></div>
           <div className="mt-9 grid grid-cols-3 gap-4">
-            {[['1000+', 'Customers'], ['4.9★', 'Rating'], ['Same Day', 'Service']].map(([a, b]) => <div key={a} className="rounded-3xl bg-white p-5 text-center shadow-lg"><p className="text-2xl font-extrabold text-[#0D47A1]">{a}</p><p className="text-sm font-semibold text-slate-500">{b}</p></div>)}
+            {[[`${googleRating.value}★`, `${googleRating.reviews} Reviews`], [`${googleRating.reviews}`, 'Happy Customers'], ['Same Day', 'Service']].map(([a, b]) => <div key={b} className="rounded-3xl bg-white p-5 text-center shadow-lg"><p className="text-2xl font-extrabold text-[#0D47A1]">{a}</p><p className="text-sm font-semibold text-slate-500">{b}</p></div>)}
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.7 }} className="relative">
@@ -375,8 +389,8 @@ function Hero() {
 
 function StatsTrust() {
   const stats = [
-    ['1000+', 'Trusted Customers', ShieldCheck],
-    ['4.9★', 'Average Google Rating', Star],
+    [`${googleRating.reviews}`, 'Trusted Customers', ShieldCheck],
+    [`${googleRating.value}★`, `Google Rating (${googleRating.reviews} reviews)`, Star],
     ['45 min', 'Typical Response Time', Clock],
     ['9+', 'Premium Brands Serviced', Award],
   ];
@@ -396,7 +410,7 @@ function WhyChoose() {
     ['Certified Engineers', 'Trained technicians for split AC, window AC and commercial HVAC.', BadgeCheck],
     ['Transparent Pricing', 'Clear diagnosis, upfront quote and no hidden service charges.', ShieldCheck],
     ['Genuine Spare Parts', 'Reliable replacement parts for long-lasting cooling performance.', Award],
-    ['Fast NCR Response', 'Quick service across Noida, Greater Noida, Ghaziabad and NCR.', TimerReset],
+    ['Fast Local Response', 'Quick service across Gaur City 1 & 2, Noida Extension and Greater Noida West.', TimerReset],
   ];
   return <section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Why choose us" title="Trustworthy service engineered for comfort" subtitle="PRINCE AIRCON combines local speed, technical discipline and customer-first communication." /> <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">{items.map(([title, text, Icon]) => <div key={String(title)} className="rounded-3xl bg-white p-7 shadow-lg"><Icon className="mb-5 h-9 w-9 text-[#FF9800]" /><h3 className="text-lg font-extrabold text-[#0D47A1]">{String(title)}</h3><p className="mt-3 leading-7 text-slate-600">{String(text)}</p></div>)}</div></div></section>;
 }
@@ -407,7 +421,7 @@ function Process() {
 }
 
 function BrandsAreas() {
-  return <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Brands & locations" title="Brands we service across Noida, Ghaziabad & NCR" subtitle="Daikin, Voltas, LG, Samsung, Hitachi, Carrier, Blue Star, Panasonic, Lloyd and more." /><div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-9">{brands.map((brand) => <div key={brand} className="rounded-2xl border border-slate-100 bg-[#F5F7FA] p-4 text-center font-extrabold text-[#0D47A1]">{brand}</div>)}</div><div className="mt-10 flex flex-wrap justify-center gap-3">{areas.map((area) => <span key={area} className="rounded-full bg-blue-50 px-4 py-2 font-semibold text-[#0D47A1]"><MapPin className="mr-1 inline h-4 w-4 text-[#FF9800]" />{area}</span>)}</div></div></section>;
+  return <section className="bg-white py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Brands & locations" title="Brands we service across Gaur City 2 & Greater Noida West" subtitle="Daikin, Voltas, LG, Samsung, Hitachi, Carrier, Blue Star, Panasonic, Lloyd and more." /><div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-9">{brands.map((brand) => <div key={brand} className="rounded-2xl border border-slate-100 bg-[#F5F7FA] p-4 text-center font-extrabold text-[#0D47A1]">{brand}</div>)}</div><div className="mt-10 flex flex-wrap justify-center gap-3">{areas.map((area) => <span key={area} className="rounded-full bg-blue-50 px-4 py-2 font-semibold text-[#0D47A1]"><MapPin className="mr-1 inline h-4 w-4 text-[#FF9800]" />{area}</span>)}</div></div></section>;
 }
 
 function AMCSection() {
@@ -417,7 +431,7 @@ function AMCSection() {
 
 function Testimonials({ reviews }: { reviews: Review[] }) {
   const featured = reviews.filter((r) => r.is_featured).slice(0, 6);
-  return <section className="py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Customer testimonials" title="Rated 4.9★ by customers across NCR" /><div className="grid gap-6 md:grid-cols-3">{featured.map((review) => <article key={review.id} className="rounded-[1.75rem] bg-white p-7 shadow-xl shadow-slate-900/5"><div className="mb-4 flex text-[#FF9800]">{Array.from({ length: Math.round(review.rating) }).map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}</div><p className="leading-7 text-slate-700">“{review.review_text}”</p><div className="mt-6"><p className="font-extrabold text-[#0D47A1]">{review.name}</p><p className="text-sm text-slate-500">{review.service} • {review.location}</p></div></article>)}</div></div></section>;
+  return <section className="py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Customer testimonials" title={`Rated ${googleRating.value}★ by ${googleRating.reviews} customers across Greater Noida West`} /><div className="grid gap-6 md:grid-cols-3">{featured.map((review) => <article key={review.id} className="rounded-[1.75rem] bg-white p-7 shadow-xl shadow-slate-900/5"><div className="mb-4 flex text-[#FF9800]">{Array.from({ length: Math.round(review.rating) }).map((_, i) => <Star key={i} className="h-5 w-5 fill-current" />)}</div><p className="leading-7 text-slate-700">“{review.review_text}”</p><div className="mt-6"><p className="font-extrabold text-[#0D47A1]">{review.name}</p><p className="text-sm text-slate-500">{review.service} • {review.location}</p></div></article>)}</div></div></section>;
 }
 
 function FAQAccordion({ faqs, page = 'home' }: { faqs: FAQ[]; page?: string }) {
@@ -427,17 +441,17 @@ function FAQAccordion({ faqs, page = 'home' }: { faqs: FAQ[]; page?: string }) {
 }
 
 function StrongCTA() {
-  return <section className="px-4 py-20"><div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#0D47A1] p-10 text-white shadow-2xl md:p-14"><div className="grid items-center gap-8 lg:grid-cols-[1fr_auto]"><div><p className="font-extrabold uppercase tracking-[0.25em] text-[#FF9800]">Need urgent cooling?</p><h2 className="mt-3 text-3xl font-extrabold md:text-5xl">Book a certified AC technician today.</h2><p className="mt-4 max-w-2xl text-blue-100">Same day AC repair Noida, AC gas filling Noida, HVAC repair Noida and commercial HVAC NCR support.</p></div><div className="flex flex-col gap-3 sm:flex-row"><Link to="/contact" className="rounded-full bg-[#FF9800] px-8 py-4 text-center font-extrabold">Book Service</Link><a href={`tel:${phoneNumber}`} className="rounded-full bg-white px-8 py-4 text-center font-extrabold text-[#0D47A1]">Call Now</a></div></div></div></section>;
+  return <section className="px-4 py-20"><div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] bg-[#0D47A1] p-10 text-white shadow-2xl md:p-14"><div className="grid items-center gap-8 lg:grid-cols-[1fr_auto]"><div><p className="font-extrabold uppercase tracking-[0.25em] text-[#FF9800]">Need urgent cooling?</p><h2 className="mt-3 text-3xl font-extrabold md:text-5xl">Book a certified AC technician today.</h2><p className="mt-4 max-w-2xl text-blue-100">Same day AC repair, installation, servicing, gas filling, AC on rent and appliance repair across Gaur City 1 &amp; 2, Noida Extension and Greater Noida West.</p></div><div className="flex flex-col gap-3 sm:flex-row"><Link to="/contact" className="rounded-full bg-[#FF9800] px-8 py-4 text-center font-extrabold">Book Service</Link><a href={`tel:${phoneNumber}`} className="rounded-full bg-white px-8 py-4 text-center font-extrabold text-[#0D47A1]">Call Now</a></div></div></div></section>;
 }
 
 function HomePage({ data }: { data: SiteData }) {
-  useEffect(() => setMeta('AC Repair Noida - Professional AC & HVAC Services', 'Book PRINCE AIRCON for AC Repair Noida, AC Service Noida, AC Installation Noida, HVAC Repair Noida and commercial HVAC NCR solutions.', '/'), []);
+  useEffect(() => setMeta('AC Repair & Appliance Services in Gaur City 2, Greater Noida West', 'Book Prince Aircon for AC repair, installation, servicing, gas filling, AC on rent and geyser, washing machine & refrigerator repair in Gaur City 1 & 2, Noida Extension and Greater Noida West.', '/'), []);
   return <><JsonLd data={localBusinessSchema(data.reviews)} /><Hero /><StatsTrust /><section className="py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Our services" title="Complete AC repair and HVAC solutions" subtitle="From split AC repair and gas refilling to commercial HVAC installation and maintenance." /><ServicesGrid services={data.services} limit={6} /></div></section><WhyChoose /><Process /><BrandsAreas /><section className="py-20"><div className="mx-auto grid max-w-7xl items-center gap-10 px-4 lg:grid-cols-2"><div><SectionHeader eyebrow="Residential & commercial" title="Comfort solutions for homes, offices, factories and retail spaces" subtitle="Our team handles single-room AC service, multi-split installations, ducted HVAC, ventilation and AMC plans." center={false} /><div className="grid gap-4 sm:grid-cols-2"><div className="rounded-3xl bg-[#F5F7FA] p-6"><HomeIcon className="mb-3 text-[#FF9800]" /><h3 className="font-extrabold text-[#0D47A1]">Residential Services</h3><p className="mt-2 text-sm text-slate-600">Apartments, villas, builder floors and societies.</p></div><div className="rounded-3xl bg-[#F5F7FA] p-6"><BriefcaseBusiness className="mb-3 text-[#FF9800]" /><h3 className="font-extrabold text-[#0D47A1]">Commercial Services</h3><p className="mt-2 text-sm text-slate-600">Offices, clinics, restaurants, showrooms and factories.</p></div></div></div><img className="rounded-[2rem] shadow-2xl" src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1100&q=80" alt="Commercial HVAC technician inspecting indoor unit" loading="lazy" /></div></section><AMCSection /><Testimonials reviews={data.reviews} /><section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="FAQ" title="Common AC service questions" /><FAQAccordion faqs={data.faqs} /></div></section><StrongCTA /></>;
 }
 
 function AboutPage({ data }: { data: SiteData }) {
-  useEffect(() => setMeta('About Us - Certified AC & HVAC Engineers', 'Learn about PRINCE AIRCON, customer-first AC service Noida experts with certified engineers, genuine parts and transparent pricing.', '/about'), []);
-  return <SubPageHero eyebrow="About PRINCE AIRCON" title="Experienced AC & HVAC engineers serving Noida, Ghaziabad and NCR" text="We are a local service company built around fast response, skilled diagnosis and honest communication." image="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-2"><div><SectionHeader center={false} eyebrow="Mission & vision" title="Reliable cooling, healthier air and better customer experiences" subtitle="Our mission is to make AC and HVAC service simple, transparent and dependable for every household and business in our service areas." /><p className="leading-8 text-slate-600">PRINCE AIRCON provides split AC repair, window AC repair, AC installation, gas refilling, deep cleaning, PCB repair, compressor support, duct work and commercial HVAC maintenance. Our customer-first approach means every visit includes proper inspection, clear explanations and workmanship-focused service.</p></div><div className="grid gap-5 sm:grid-cols-2">{['Certified engineers', 'Transparent pricing', 'Genuine spare parts', 'Fast response', 'Safety-first work', 'AMC expertise'].map((item) => <div key={item} className="rounded-3xl bg-[#F5F7FA] p-6"><CheckCircle2 className="mb-3 text-[#FF9800]" /><h3 className="font-extrabold text-[#0D47A1]">{item}</h3></div>)}</div></div></section><StatsTrust /><WhyChoose /><Testimonials reviews={data.reviews} /><StrongCTA /></SubPageHero>;
+  useEffect(() => setMeta('About Us - Certified AC & Appliance Engineers', 'Learn about Prince Aircon, customer-first AC and home appliance service experts in Gaur City 2, Greater Noida West with certified engineers, genuine parts and transparent pricing.', '/about'), []);
+  return <SubPageHero eyebrow="About PRINCE AIRCON" title="Experienced AC & appliance engineers serving Gaur City 2 & Greater Noida West" text="We are a local service company built around fast response, skilled diagnosis and honest communication." image="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-2"><div><SectionHeader center={false} eyebrow="Mission & vision" title="Reliable cooling, healthier air and better customer experiences" subtitle="Our mission is to make AC and HVAC service simple, transparent and dependable for every household and business in our service areas." /><p className="leading-8 text-slate-600">PRINCE AIRCON provides split AC repair, window AC repair, AC installation, gas refilling, deep cleaning, PCB repair, compressor support, duct work and commercial HVAC maintenance. Our customer-first approach means every visit includes proper inspection, clear explanations and workmanship-focused service.</p></div><div className="grid gap-5 sm:grid-cols-2">{['Certified engineers', 'Transparent pricing', 'Genuine spare parts', 'Fast response', 'Safety-first work', 'AMC expertise'].map((item) => <div key={item} className="rounded-3xl bg-[#F5F7FA] p-6"><CheckCircle2 className="mb-3 text-[#FF9800]" /><h3 className="font-extrabold text-[#0D47A1]">{item}</h3></div>)}</div></div></section><StatsTrust /><WhyChoose /><Testimonials reviews={data.reviews} /><StrongCTA /></SubPageHero>;
 }
 
 function SubPageHero({ eyebrow, title, text, image, children }: { eyebrow: string; title: string; text: string; image: string; children: React.ReactNode }) {
@@ -456,21 +470,21 @@ function DetailedService({ service }: { service: Service }) {
 }
 
 function HVACPage({ data }: { data: SiteData }) {
-  useEffect(() => setMeta('HVAC Solutions - Commercial HVAC Repair Noida & NCR', 'HVAC Installation, HVAC Repair Noida, commercial HVAC NCR, duct installation, ventilation, office HVAC, factory HVAC and maintenance.', '/hvac-solutions'), []);
+  useEffect(() => setMeta('HVAC Solutions - Commercial HVAC in Greater Noida West', 'HVAC installation, repair, duct installation, ventilation, office HVAC, factory HVAC and maintenance for businesses in Gaur City 2 and Greater Noida West.', '/hvac-solutions'), []);
   const hvac = data.services.filter((s) => s.category === 'hvac');
-  return <SubPageHero eyebrow="HVAC Solutions" title="Commercial, industrial and office HVAC services" text="End-to-end HVAC installation, repair, ducting, ventilation and maintenance support for businesses in NCR." image="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto max-w-7xl px-4"><ServicesGrid services={data.services} category="hvac" /></div></section><section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Industries served" title="HVAC expertise for high-performance facilities" /><div className="grid gap-5 md:grid-cols-5">{['Offices', 'Factories', 'Clinics', 'Restaurants', 'Showrooms'].map((item) => <div key={item} className="rounded-3xl bg-white p-6 text-center font-extrabold text-[#0D47A1] shadow-lg"><Building2 className="mx-auto mb-3 text-[#FF9800]" />{item}</div>)}</div></div></section><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-2"><div>{hvac.slice(0, 4).map((service) => <DetailedService key={service.id} service={service} />)}</div><LeadForm title="Request HVAC Enquiry" leadType="hvac_enquiry" services={hvac.map((s) => s.title)} /></div></section><StrongCTA /></SubPageHero>;
+  return <SubPageHero eyebrow="HVAC Solutions" title="Commercial, industrial and office HVAC services" text="End-to-end HVAC installation, repair, ducting, ventilation and maintenance support for businesses in Greater Noida West." image="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto max-w-7xl px-4"><ServicesGrid services={data.services} category="hvac" /></div></section><section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Industries served" title="HVAC expertise for high-performance facilities" /><div className="grid gap-5 md:grid-cols-5">{['Offices', 'Factories', 'Clinics', 'Restaurants', 'Showrooms'].map((item) => <div key={item} className="rounded-3xl bg-white p-6 text-center font-extrabold text-[#0D47A1] shadow-lg"><Building2 className="mx-auto mb-3 text-[#FF9800]" />{item}</div>)}</div></div></section><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-2"><div>{hvac.slice(0, 4).map((service) => <DetailedService key={service.id} service={service} />)}</div><LeadForm title="Request HVAC Enquiry" leadType="hvac_enquiry" services={hvac.map((s) => s.title)} /></div></section><StrongCTA /></SubPageHero>;
 }
 
 function GalleryPage({ data }: { data: SiteData }) {
   const [filter, setFilter] = useState('all');
   useEffect(() => setMeta('Gallery - AC Installation, Repair & HVAC Project Photos', 'Filter AC repair, installation, commercial HVAC, residential service, technician and before-after gallery from PRINCE AIRCON.', '/gallery'), []);
   const items = filter === 'all' ? data.gallery : data.gallery.filter((g) => g.category === filter);
-  return <SubPageHero eyebrow="Gallery" title="Installation, repair and commercial HVAC project gallery" text="View real categories of our AC service work across Noida, Ghaziabad and NCR." image="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto max-w-7xl px-4"><div className="mb-8 flex flex-wrap justify-center gap-3">{galleryFilters.map((f) => <button key={f} onClick={() => setFilter(f)} className={`rounded-full px-5 py-3 font-bold capitalize ${filter === f ? 'bg-[#0D47A1] text-white' : 'bg-[#F5F7FA] text-[#0D47A1]'}`}>{f.replace('-', ' ')}</button>)}</div><div className="grid gap-6 md:grid-cols-3">{items.map((item) => <article key={item.id} className="overflow-hidden rounded-[1.75rem] bg-white shadow-xl"><img src={item.image_url} alt={item.alt_text} loading="lazy" className="aspect-[4/3] w-full object-cover" /><div className="p-5"><p className="text-xs font-extrabold uppercase tracking-widest text-[#FF9800]">{item.category}</p><h2 className="mt-2 font-extrabold text-[#0D47A1]">{item.title}</h2><p className="mt-1 text-sm text-slate-500">{item.location}</p>{item.video_url && <a className="mt-4 inline-flex font-bold text-[#FF9800]" href={item.video_url} target="_blank" rel="noreferrer">Watch project video</a>}</div></article>)}</div></div></section></SubPageHero>;
+  return <SubPageHero eyebrow="Gallery" title="Installation, repair and commercial HVAC project gallery" text="View real categories of our AC and appliance service work across Gaur City 2 and Greater Noida West." image="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto max-w-7xl px-4"><div className="mb-8 flex flex-wrap justify-center gap-3">{galleryFilters.map((f) => <button key={f} onClick={() => setFilter(f)} className={`rounded-full px-5 py-3 font-bold capitalize ${filter === f ? 'bg-[#0D47A1] text-white' : 'bg-[#F5F7FA] text-[#0D47A1]'}`}>{f.replace('-', ' ')}</button>)}</div><div className="grid gap-6 md:grid-cols-3">{items.map((item) => <article key={item.id} className="overflow-hidden rounded-[1.75rem] bg-white shadow-xl"><img src={item.image_url} alt={item.alt_text} loading="lazy" className="aspect-[4/3] w-full object-cover" /><div className="p-5"><p className="text-xs font-extrabold uppercase tracking-widest text-[#FF9800]">{item.category}</p><h2 className="mt-2 font-extrabold text-[#0D47A1]">{item.title}</h2><p className="mt-1 text-sm text-slate-500">{item.location}</p>{item.video_url && <a className="mt-4 inline-flex font-bold text-[#FF9800]" href={item.video_url} target="_blank" rel="noreferrer">Watch project video</a>}</div></article>)}</div></div></section></SubPageHero>;
 }
 
 function ReviewsPage({ data, refetch }: { data: SiteData; refetch: () => void }) {
-  useEffect(() => setMeta('Reviews - 4.9 Star AC Service Noida Testimonials', 'Read customer reviews, success stories and before-after cases for PRINCE AIRCON AC repair Noida and HVAC services Ghaziabad.', '/reviews'), []);
-  return <SubPageHero eyebrow="Reviews" title="Customer testimonials and service success stories" text="A 4.9-star service reputation built on punctual response, clean workmanship and reliable cooling results." image="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80"><section className="bg-[#F5F7FA] py-16"><div className="mx-auto max-w-7xl px-4 text-center"><p className="text-6xl font-extrabold text-[#0D47A1]">4.9★</p><p className="mt-2 text-lg font-semibold text-slate-600">Google rating style customer satisfaction for AC Service Noida and HVAC Services Ghaziabad</p></div></section><Testimonials reviews={data.reviews} /><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-2"><div className="grid gap-5">{data.reviews.map((r) => <div key={r.id} className="rounded-3xl bg-white p-6 shadow-lg"><h3 className="font-extrabold text-[#0D47A1]">{r.service} in {r.location}</h3><p className="mt-2 text-slate-600">{r.before_after || r.review_text}</p><p className="mt-3 font-semibold text-[#FF9800]">— {r.name}</p></div>)}</div><ReviewForm refetch={refetch} /></div></section><StrongCTA /></SubPageHero>;
+  useEffect(() => setMeta('Reviews - 4.9 Star Rated AC & Appliance Service', 'Read customer reviews, success stories and before-after cases for Prince Aircon — rated 4.9 stars by 1,100+ customers across Gaur City 2 and Greater Noida West.', '/reviews'), []);
+  return <SubPageHero eyebrow="Reviews" title="Customer testimonials and service success stories" text="A 4.9-star service reputation built on punctual response, clean workmanship and reliable cooling results." image="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=1200&q=80"><section className="bg-[#F5F7FA] py-16"><div className="mx-auto max-w-7xl px-4 text-center"><p className="text-6xl font-extrabold text-[#0D47A1]">{googleRating.value}★</p><p className="mt-2 text-lg font-semibold text-slate-600">Google rating from {googleRating.reviews} customers for AC &amp; appliance service in Gaur City 2, Greater Noida West</p></div></section><Testimonials reviews={data.reviews} /><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-2"><div className="grid gap-5">{data.reviews.map((r) => <div key={r.id} className="rounded-3xl bg-white p-6 shadow-lg"><h3 className="font-extrabold text-[#0D47A1]">{r.service} in {r.location}</h3><p className="mt-2 text-slate-600">{r.before_after || r.review_text}</p><p className="mt-3 font-semibold text-[#FF9800]">— {r.name}</p></div>)}</div><ReviewForm refetch={refetch} /></div></section><StrongCTA /></SubPageHero>;
 }
 
 function BlogPage({ data }: { data: SiteData }) {
@@ -482,9 +496,9 @@ function BlogPage({ data }: { data: SiteData }) {
 }
 
 function ContactPage({ data, refetch }: { data: SiteData; refetch: () => void }) {
-  useEffect(() => setMeta('Contact - Book AC Repair Noida & HVAC Service', 'Contact PRINCE AIRCON for booking AC repair Noida, AC installation, AC gas filling, HVAC services Ghaziabad and emergency NCR support.', '/contact'), []);
+  useEffect(() => setMeta('Contact - Book AC Repair & Appliance Service in Gaur City 2', 'Contact Prince Aircon at Shop No-10, City Plaza, Extension, Gaur City 2, Greater Noida. Call +91 98917 65996 or +91 92506 04414 to book AC repair, installation, gas filling and appliance service.', '/contact'), []);
   const serviceNames = data.services.map((s) => s.title);
-  return <SubPageHero eyebrow="Contact" title="Book appointment or emergency AC service" text="Call, WhatsApp or submit the form. Our team will confirm your time slot quickly." image="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-[1fr_1.2fr]"><div className="space-y-5"><ContactCard icon={Phone} title="Phone" text={phoneNumber} href={`tel:${phoneNumber}`} /><ContactCard icon={MessageCircle} title="WhatsApp" text="Instant booking & support" href={whatsappUrl} /><ContactCard icon={Mail} title="Email" text="service@princeaircon.example" href="mailto:service@princeaircon.example" /><ContactCard icon={MapPin} title="Address" text="Serving Noida, Greater Noida, Ghaziabad and NCR" /><ContactCard icon={Clock} title="Business Hours" text="Mon-Sun: 8:00 AM - 10:00 PM | Emergency support available" /></div><LeadForm title="Book Appointment" leadType="service_booking" services={serviceNames} onSuccess={refetch} /></div></section><section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Find us" title="Service coverage map" /><div className="overflow-hidden rounded-[2rem] shadow-2xl"><iframe title="PRINCE AIRCON Noida service area Google Map" src="https://maps.google.com/maps?q=Noida%20Uttar%20Pradesh&t=&z=11&ie=UTF8&iwloc=&output=embed" className="h-[420px] w-full border-0" loading="lazy" /></div></div></section></SubPageHero>;
+  return <SubPageHero eyebrow="Contact" title="Book appointment or emergency AC service" text="Call, WhatsApp or submit the form. Our team will confirm your time slot quickly." image="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-[1fr_1.2fr]"><div className="space-y-5"><ContactCard icon={Phone} title="Call (Primary)" text={phoneDisplay} href={`tel:${phoneNumber}`} /><ContactCard icon={Phone} title="Call (Alternate)" text={phoneSecondaryDisplay} href={`tel:${phoneNumberSecondary}`} /><ContactCard icon={MessageCircle} title="WhatsApp" text={`Instant booking & support · ${phoneDisplay}`} href={whatsappUrl} /><ContactCard icon={MapPin} title="Address" text={businessAddress} href={mapsUrl} /><ContactCard icon={Facebook} title="Facebook" text="facebook.com/princeairconnoida" href={facebookUrl} /><ContactCard icon={Clock} title="Business Hours" text="Mon-Sun: 8:00 AM - 10:00 PM | Emergency support available" /></div><LeadForm title="Book Appointment" leadType="service_booking" services={serviceNames} onSuccess={refetch} /></div></section><section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Find us" title="Service coverage map" /><div className="overflow-hidden rounded-[2rem] shadow-2xl"><iframe title="PRINCE AIRCON Gaur City 2 Greater Noida service area map" src={`https://maps.google.com/maps?q=${encodeURIComponent(businessAddress)}&t=&z=14&ie=UTF8&iwloc=&output=embed`} className="h-[420px] w-full border-0" loading="lazy" /></div></div></section></SubPageHero>;
 }
 
 function ContactCard({ icon: Icon, title, text, href }: { icon: typeof Phone; title: string; text: string; href?: string }) {
@@ -538,7 +552,7 @@ function ReviewForm({ refetch }: { refetch: () => void }) {
 function PolicyPage({ type }: { type: 'privacy' | 'terms' }) {
   const title = type === 'privacy' ? 'Privacy Policy' : 'Terms & Conditions';
   useEffect(() => setMeta(title, `${title} for PRINCE AIRCON AC and HVAC service website.`, `/${type === 'privacy' ? 'privacy-policy' : 'terms-conditions'}`), [title, type]);
-  return <section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-4xl rounded-[2rem] bg-white p-8 shadow-xl"><h1 className="text-4xl font-extrabold text-[#0D47A1]">{title}</h1><div className="mt-8 space-y-6 leading-8 text-slate-600"><p>PRINCE AIRCON collects contact and service details only to respond to AC repair, AC installation, HVAC maintenance and enquiry requests across Noida, Greater Noida, Ghaziabad and NCR.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Information & service use</h2><p>Customers should provide accurate contact, address and equipment details. Quotes may vary after technician inspection, spare part requirements or site conditions.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Data protection</h2><p>Form submissions are stored securely in our database and used for appointment coordination, service follow-up, quality improvement and relevant maintenance reminders.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Payments, warranties and liability</h2><p>Service warranty depends on the nature of work and parts used. PRINCE AIRCON is not liable for pre-existing equipment faults, unsafe wiring or third-party modifications.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Contact</h2><p>For privacy or service terms questions, contact PRINCE AIRCON by phone, WhatsApp or the website contact form.</p></div></div></section>;
+  return <section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-4xl rounded-[2rem] bg-white p-8 shadow-xl"><h1 className="text-4xl font-extrabold text-[#0D47A1]">{title}</h1><div className="mt-8 space-y-6 leading-8 text-slate-600"><p>PRINCE AIRCON collects contact and service details only to respond to AC repair, AC installation, servicing, gas filling and appliance repair enquiries across Gaur City 1 &amp; 2, Noida Extension and Greater Noida West.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Information & service use</h2><p>Customers should provide accurate contact, address and equipment details. Quotes may vary after technician inspection, spare part requirements or site conditions.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Data protection</h2><p>Form submissions are stored securely in our database and used for appointment coordination, service follow-up, quality improvement and relevant maintenance reminders.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Payments, warranties and liability</h2><p>Service warranty depends on the nature of work and parts used. PRINCE AIRCON is not liable for pre-existing equipment faults, unsafe wiring or third-party modifications.</p><h2 className="text-2xl font-extrabold text-[#0D47A1]">Contact</h2><p>For privacy or service terms questions, contact PRINCE AIRCON by phone, WhatsApp or the website contact form.</p></div></div></section>;
 }
 
 function SitemapPage({ data }: { data: SiteData }) {
@@ -552,7 +566,7 @@ function NotFoundPage() {
 }
 
 function localBusinessSchema(reviews: Review[]) {
-  return { '@context': 'https://schema.org', '@type': 'HVACBusiness', name: 'PRINCE AIRCON', image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80', telephone: phoneNumber, areaServed: areas, address: { '@type': 'PostalAddress', addressLocality: 'Noida', addressRegion: 'Uttar Pradesh', addressCountry: 'IN' }, aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: Math.max(reviews.length, 48) }, priceRange: '₹₹', sameAs: [whatsappUrl] };
+  return { '@context': 'https://schema.org', '@type': 'HVACBusiness', name: 'Prince Aircon', image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80', telephone: [phoneNumber, phoneNumberSecondary], areaServed: areas, address: { '@type': 'PostalAddress', streetAddress: 'Shop No-10, City Plaza, Extension, Gaur City 2', addressLocality: 'Greater Noida', addressRegion: 'Uttar Pradesh', postalCode: '201009', addressCountry: 'IN' }, aggregateRating: { '@type': 'AggregateRating', ratingValue: googleRating.value, reviewCount: Math.max(reviews.length, 1100) }, priceRange: '₹₹', sameAs: [facebookUrl, whatsappUrl] };
 }
 
 function AppRoutes() {
