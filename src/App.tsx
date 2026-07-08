@@ -36,9 +36,7 @@ import { getSiteData, submitLead, submitReview, subscribeNewsletter } from './li
 
 const emptyData: SiteData = { services: [], gallery: [], reviews: [], posts: [], faqs: [], content: [] };
 const phoneNumber = '+919891765996';
-const phoneNumberSecondary = '+919250604414';
 const phoneDisplay = '+91 98917 65996';
-const phoneSecondaryDisplay = '+91 92506 04414';
 const whatsappNumber = '919891765996';
 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent('Hi Prince Aircon, I want to book an AC / appliance service.')}`;
 const facebookUrl = 'https://www.facebook.com/princeairconnoida';
@@ -164,7 +162,6 @@ function Header() {
           <span className="flex items-center gap-2 font-medium"><Zap className="h-4 w-4 text-[#FF9800]" /> Same Day AC & Appliance Service in Gaur City 2, Greater Noida West</span>
           <div className="flex items-center gap-4">
             <a href={`tel:${phoneNumber}`} className="flex items-center gap-1 hover:text-[#FF9800]"><Phone className="h-4 w-4" /> {phoneDisplay}</a>
-            <a href={`tel:${phoneNumberSecondary}`} className="hidden items-center gap-1 hover:text-[#FF9800] sm:flex"><Phone className="h-4 w-4" /> {phoneSecondaryDisplay}</a>
             <a href={whatsappUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-[#FF9800]"><MessageCircle className="h-4 w-4" /> WhatsApp</a>
           </div>
         </div>
@@ -227,7 +224,6 @@ function Footer({ posts }: { posts: BlogPost[] }) {
           <p className="mt-5 leading-7 text-blue-100">Trusted local experts for AC repair, installation, servicing, gas filling, AC on rent and appliance repair across Gaur City 1 &amp; 2, Noida Extension and Greater Noida West.</p>
           <div className="mt-5 grid gap-2 text-sm text-blue-100">
             <a href={`tel:${phoneNumber}`} className="flex items-center gap-2 hover:text-[#FF9800]"><Phone className="h-4 w-4 shrink-0" /> {phoneDisplay}</a>
-            <a href={`tel:${phoneNumberSecondary}`} className="flex items-center gap-2 hover:text-[#FF9800]"><Phone className="h-4 w-4 shrink-0" /> {phoneSecondaryDisplay}</a>
             <p className="flex items-start gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0" /> {businessAddress}</p>
           </div>
           <div className="mt-6 flex flex-wrap items-center gap-3"><a className="rounded-full bg-[#FF9800] px-5 py-3 font-bold" href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp</a><a className="rounded-full bg-white/10 px-5 py-3 font-bold" href={`tel:${phoneNumber}`}>Call Now</a><a className="grid h-11 w-11 place-items-center rounded-full bg-white/10 hover:bg-[#FF9800]" href={facebookUrl} target="_blank" rel="noreferrer" aria-label="Prince Aircon on Facebook"><Facebook className="h-5 w-5" /></a></div>
@@ -401,9 +397,9 @@ function BlogPage({ data }: { data: SiteData }) {
 }
 
 function ContactPage({ data, refetch }: { data: SiteData; refetch: () => void }) {
-  useEffect(() => setMeta('Contact - Book AC Repair & Appliance Service in Gaur City 2', 'Contact Prince Aircon at Shop No-10, City Plaza, Extension, Gaur City 2, Greater Noida. Call +91 98917 65996 or +91 92506 04414 to book AC repair, installation, gas filling and appliance service.', '/contact'), []);
+  useEffect(() => setMeta('Contact - Book AC Repair & Appliance Service in Gaur City 2', 'Contact Prince Aircon at Shop No-10, City Plaza, Extension, Gaur City 2, Greater Noida. Call +91 98917 65996 to book AC repair, installation, gas filling and appliance service.', '/contact'), []);
   const serviceNames = data.services.map((s) => s.title);
-  return <SubPageHero eyebrow="Contact" title="Book appointment or emergency AC service" text="Call, WhatsApp or submit the form. Our team will confirm your time slot quickly." image="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-[1fr_1.2fr]"><div className="space-y-5"><ContactCard icon={Phone} title="Call (Primary)" text={phoneDisplay} href={`tel:${phoneNumber}`} /><ContactCard icon={Phone} title="Call (Alternate)" text={phoneSecondaryDisplay} href={`tel:${phoneNumberSecondary}`} /><ContactCard icon={MessageCircle} title="WhatsApp" text={`Instant booking & support · ${phoneDisplay}`} href={whatsappUrl} /><ContactCard icon={MapPin} title="Address" text={businessAddress} href={mapsUrl} /><ContactCard icon={Facebook} title="Facebook" text="facebook.com/princeairconnoida" href={facebookUrl} />{/* TODO: Business Hours hidden until owner confirms opening hours — restore this card with the confirmed timings. <ContactCard icon={Clock} title="Business Hours" text="Mon-Sun: 8:00 AM - 10:00 PM | Emergency support available" /> */}</div><LeadForm title="Book Appointment" leadType="service_booking" services={serviceNames} onSuccess={refetch} /></div></section><section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Find us" title="Service coverage map" /><div className="overflow-hidden rounded-[2rem] shadow-2xl"><iframe title="PRINCE AIRCON Gaur City 2 Greater Noida service area map" src={`https://maps.google.com/maps?q=${encodeURIComponent(businessAddress)}&t=&z=14&ie=UTF8&iwloc=&output=embed`} className="h-[420px] w-full border-0" loading="lazy" /></div></div></section></SubPageHero>;
+  return <SubPageHero eyebrow="Contact" title="Book appointment or emergency AC service" text="Call, WhatsApp or submit the form. Our team will confirm your time slot quickly." image="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80"><section className="py-20"><div className="mx-auto grid max-w-7xl gap-8 px-4 lg:grid-cols-[1fr_1.2fr]"><div className="space-y-5"><ContactCard icon={Phone} title="Call (Primary)" text={phoneDisplay} href={`tel:${phoneNumber}`} /><ContactCard icon={MessageCircle} title="WhatsApp" text={`Instant booking & support · ${phoneDisplay}`} href={whatsappUrl} /><ContactCard icon={MapPin} title="Address" text={businessAddress} href={mapsUrl} /><ContactCard icon={Facebook} title="Facebook" text="facebook.com/princeairconnoida" href={facebookUrl} />{/* TODO: Business Hours hidden until owner confirms opening hours — restore this card with the confirmed timings. <ContactCard icon={Clock} title="Business Hours" text="Mon-Sun: 8:00 AM - 10:00 PM | Emergency support available" /> */}</div><LeadForm title="Book Appointment" leadType="service_booking" services={serviceNames} onSuccess={refetch} /></div></section><section className="bg-[#F5F7FA] py-20"><div className="mx-auto max-w-7xl px-4"><SectionHeader eyebrow="Find us" title="Service coverage map" /><div className="overflow-hidden rounded-[2rem] shadow-2xl"><iframe title="PRINCE AIRCON Gaur City 2 Greater Noida service area map" src={`https://maps.google.com/maps?q=${encodeURIComponent(businessAddress)}&t=&z=14&ie=UTF8&iwloc=&output=embed`} className="h-[420px] w-full border-0" loading="lazy" /></div></div></section></SubPageHero>;
 }
 
 function ContactCard({ icon: Icon, title, text, href }: { icon: typeof Phone; title: string; text: string; href?: string }) {
@@ -471,7 +467,7 @@ function NotFoundPage() {
 }
 
 function localBusinessSchema(reviews: Review[]) {
-  return { '@context': 'https://schema.org', '@type': 'HVACBusiness', name: 'Prince Aircon', image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80', telephone: [phoneNumber, phoneNumberSecondary], areaServed: areas, address: { '@type': 'PostalAddress', streetAddress: 'Shop No-10, City Plaza, Extension, Gaur City 2', addressLocality: 'Greater Noida', addressRegion: 'Uttar Pradesh', postalCode: '201009', addressCountry: 'IN' }, aggregateRating: { '@type': 'AggregateRating', ratingValue: googleRating.value, reviewCount: Math.max(reviews.length, 1100) }, priceRange: '₹₹', sameAs: [facebookUrl, whatsappUrl] };
+  return { '@context': 'https://schema.org', '@type': 'HVACBusiness', name: 'Prince Aircon', image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=1200&q=80', telephone: phoneNumber, areaServed: areas, address: { '@type': 'PostalAddress', streetAddress: 'Shop No-10, City Plaza, Extension, Gaur City 2', addressLocality: 'Greater Noida', addressRegion: 'Uttar Pradesh', postalCode: '201009', addressCountry: 'IN' }, aggregateRating: { '@type': 'AggregateRating', ratingValue: googleRating.value, reviewCount: Math.max(reviews.length, 1100) }, priceRange: '₹₹', sameAs: [facebookUrl, whatsappUrl] };
 }
 
 function AppRoutes() {
