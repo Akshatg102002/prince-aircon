@@ -35,6 +35,10 @@ import type { BlogPost, FAQ, LeadFormState, Review, Service, SiteContent, SiteDa
 import { getSiteData, submitLead, submitReview, subscribeNewsletter } from './lib/supabaseData';
 
 const emptyData: SiteData = { services: [], gallery: [], reviews: [], posts: [], faqs: [], content: [] };
+// Services to hide on the frontend regardless of what the database returns
+// (e.g. Plumber and Electrician — not offered by this business). Matched
+// case-insensitively against each service's title and slug.
+const hiddenServicePattern = /plumb|electric/i;
 const phoneNumber = '+919891765996';
 const phoneDisplay = '+91 98917 65996';
 const whatsappNumber = '919891765996';
@@ -84,6 +88,8 @@ function useSiteData() {
       // Reads directly from Supabase (browser anon key) so the site works on
       // static hosting without the /api/* serverless functions.
       const json = await getSiteData();
+      // Drop hidden services (Plumber, Electrician) so they never render anywhere.
+      json.services = json.services.filter((s) => !hiddenServicePattern.test(s.title) && !hiddenServicePattern.test(s.slug));
       setData(json);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
